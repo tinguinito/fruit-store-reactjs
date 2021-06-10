@@ -2,6 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+* install nodejs
+
+``` npx create-react-app my-app
+    npm init react-app my-app
+```
+
+#Main concepts
+
+https://reactjs.org/docs/hello-world.html
+
+#visual Studio Code React
+
+https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
+
+
 ## Available Scripts
 
 In the project directory, you can run:
