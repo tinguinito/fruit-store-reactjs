@@ -10,11 +10,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 #Main concepts
 
-https://reactjs.org/docs/hello-world.html
+[Concepts](https://reactjs.org/docs/hello-world.html)
 
 #visual Studio Code React
 
-https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
+[Guide](https://code.visualstudio.com/docs/nodejs/reactjs-tutorial)
 
 
 ## Available Scripts
