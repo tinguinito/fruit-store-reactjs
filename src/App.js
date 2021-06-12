@@ -1,7 +1,46 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Button from './components/Button';
+import Welcome from './components/Welcome';
+import TableProducts from './components/TableProducts';
+
+import { getProducts } from './services/services';
 function App() {
+  const [data, setData] = useState({ items: [] });
+
+  let handleOnChangeCheckbox = (event) => {
+    console.log(event.target.value)
+    let fruites = data.items
+    fruites.forEach(fruite => {
+      // console.log(`${fruite.sku} === ${event.target.value} => ${fruite.sku === event.target.value}`)
+      fruite.isChecked = false;
+      if (fruite.sku === event.target.value)
+        fruite.isChecked = event.target.checked
+    })
+    setData({ items: fruites })
+  }
+
+  let handleCheckChieldElement = (event) => {
+    console.log(event)
+
+  }
+
+  useEffect(() => {
+
+    const fetchData = async () => getProducts()
+      .then(items => {
+        setData({ isLoaded: true, items: items });
+      }, (e) => setData(
+        { isLoaded: true, error: e }
+      ))
+
+    fetchData();
+
+  }, [])
+
+
+
   return (
     <div className="App">
       <header className="App-header">
@@ -9,21 +48,19 @@ function App() {
       </header>
       <div className="container">
         <div className="row pb-5">
+          <Button label="Cargar Productos" nameClass="btn btn-primary" action="load" />
 
-          <Button label="Cargar Productos" nameClass="btn btn-primary" />
+          <Button label="Agregar productos" nameClass="btn btn-success" action="add" />
 
-          <Button label="Agregar productos" nameClass="btn btn-success" />
+          <Button label="Modificar productos" nameClass="btn btn-secondary" action="edit" />
 
-
-          <Button label="Modificar productos" nameClass="btn btn-secondary" />
-
-
-          <Button label="Eliminar productos" nameClass="btn btn-danger" />
+          <Button label="Eliminar productos" nameClass="btn btn-danger" action="delete" onClick={handleCheckChieldElement} />
 
         </div>
+        {data.items.length > 0 ? <TableProducts data={data} handleOnChangeCheckbox={handleOnChangeCheckbox} /> : <div></div>}
+
       </div>
       <footer>
-        <Clock />
       </footer>
     </div>
   );
@@ -31,46 +68,3 @@ function App() {
 
 export default App;
 
-function Welcome(props) {
-  return <h1 className="text-primary text-center py-5">Bienvenido a, {props.name}</h1>
-}
-
-function Button(props) {
-  return (
-    <div className="col-3 text-center">
-      <button className={props.nameClass}>{props.label}</button>
-    </div>
-  );
-}
-
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { date: new Date() };
-  }
-
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
-  }
-  render() {
-    return (
-      <div>
-        <h1>Hello, world!</h1>
-        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-      </div>
-    );
-  }
-}
