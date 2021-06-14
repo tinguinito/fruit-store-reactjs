@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from './Button';
 
 class TableProducts extends React.Component {
     constructor(props) {
@@ -8,24 +9,19 @@ class TableProducts extends React.Component {
             isLoaded: props.data.isLoaded,
             items: props.data.items,
         };
-        this.handleOnClickButtonDelete = this.handleOnClickButtonDelete.bind(this);
+        this.handleOnClickButtonDelete = this.handleOnClickButtonDelete.bind(this)
 
-        // console.log(props.data.items)
+
     }
 
-    handleOnClickButtonDelete() {
+    handleOnClickButtonDelete(sku, e) {
+        e.preventDefault();
         let fruites = this.state.items;
-        let filtered = fruites.filter(item => item.isChecked !== true)
+        let filtered = fruites.filter(item => item.sku !== sku)
         console.log(filtered);
 
         this.setState({ items: filtered })
 
-    }
-
-    handleCheckChieldElement = (event) => {
-        console.log(event.target.value)
-        this.props.parentCallback(event.target.value);
-        event.preventDefault();
     }
 
 
@@ -51,7 +47,7 @@ class TableProducts extends React.Component {
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Precio</th>
                                 <th scope="col">Unidad</th>
-                                <th>delete</th>
+                                <th scope="col">Accion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,11 +58,15 @@ class TableProducts extends React.Component {
                                     <CheckBox handleCheckChieldElement={this.props.handleOnChangeCheckbox} {...item} />
                                 </th>
                                 <th scope="row" > {item.sku}  </th>
-                                <th > {item.product}  </th>
-                                <th > {item.quantity}  </th>
-                                <th > $ {item.price}  </th>
-                                <th > {item.un} </th>
-                                {/* <th  > <a onClick={this.handleOnClickButtonDelete}> Delete</a> </th> */}
+                                <th> {item.product}  </th>
+                                <th> {item.quantity}  </th>
+                                <th> $ {item.price}  </th>
+                                <th> {item.un} </th>
+                                <th className="row">
+                                    <Button label="Borrar" nameClass="btn btn-danger" onClick={(e) => this.handleOnClickButtonDelete(item.sku, e)} col="col-6" />
+                                    <Button label="Editar" nameClass="btn btn-warning" onClick={(e) => this.handleOnClickButtonDelete(item.sku, e)} col="col-6" />
+                                </th>
+
                             </tr>
                             ))}
 

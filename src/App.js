@@ -21,10 +21,16 @@ function App() {
     setData({ items: fruites })
   }
 
-  let handleCheckChieldElement = (event) => {
-    console.log(event)
+  // let handleOnClickButtonDelete = (event) => {
+  //   // console.log(event.target)
+  //   let fruites = data?.items;
+  //   let filtered = fruites
+  //     .filter(item => item.isChecked !== true)
+  //   console.log(filtered);
 
-  }
+  //   setData({ items: filtered })
+
+  // }
 
   useEffect(() => {
 
@@ -54,10 +60,11 @@ function App() {
 
           <Button label="Modificar productos" nameClass="btn btn-secondary" action="edit" />
 
-          <Button label="Eliminar productos" nameClass="btn btn-danger" action="delete" onClick={handleCheckChieldElement} />
+          <Button label="Eliminar productos" nameClass="btn btn-danger" action="delete"  />
 
         </div>
-        {data.items.length > 0 ? <TableProducts data={data} handleOnChangeCheckbox={handleOnChangeCheckbox} /> : <div></div>}
+        {data?.items?.length > 0 ? <TableProducts data={data}
+          handleOnChangeCheckbox={handleOnChangeCheckbox} /> : <div></div>}
 
       </div>
       <footer>
