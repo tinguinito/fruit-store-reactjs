@@ -1,11 +1,11 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from './components/Button';
 import Welcome from './components/Welcome';
 import TableProducts from './components/TableProducts';
 
-import { getProducts } from './services/services';
+import { addProduct, getProducts } from './services/services';
 function App() {
   const [data, setData] = useState({ items: [] });
 
@@ -21,16 +21,20 @@ function App() {
     setData({ items: fruites })
   }
 
-  // let handleOnClickButtonDelete = (event) => {
-  //   // console.log(event.target)
-  //   let fruites = data?.items;
-  //   let filtered = fruites
-  //     .filter(item => item.isChecked !== true)
-  //   console.log(filtered);
+  let addNewProduct = async () => {
+    console.log('addNewProduct')
 
-  //   setData({ items: filtered })
+    let newProduct = { sku: "prod-6", product: "Zanahoria", quantity: 50, price: 900, un: 'KG', isChecked: false };
 
-  // }
+    return await addProduct(newProduct)
+      .then((pro) => {
+        console.log(`Add Product ${pro}`)
+        let fruites = data.items
+        fruites.push(newProduct);
+
+        setData({ items: fruites })
+      });
+  }
 
   useEffect(() => {
 
@@ -54,13 +58,13 @@ function App() {
       </header>
       <div className="container">
         <div className="row pb-5">
-          <Button label="Cargar Productos" nameClass="btn btn-primary" action="load" />
+          <Button label="Cargar Productos" nameClass="btn btn-primary" action="load"  />
 
-          <Button label="Agregar productos" nameClass="btn btn-success" action="add" />
-
+          <Button label="Agregar productos" nameClass="btn btn-success" action="add" onClick={addNewProduct} />
+          {/* 
           <Button label="Modificar productos" nameClass="btn btn-secondary" action="edit" />
 
-          <Button label="Eliminar productos" nameClass="btn btn-danger" action="delete"  />
+          <Button label="Eliminar productos" nameClass="btn btn-danger" action="delete"  /> */}
 
         </div>
         {data?.items?.length > 0 ? <TableProducts data={data}

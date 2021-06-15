@@ -1,5 +1,7 @@
 import React from 'react'
+import { deleteProduct } from '../services/services';
 import Button from './Button';
+import EditProducts from './EditProducts'
 
 class TableProducts extends React.Component {
     constructor(props) {
@@ -8,10 +10,17 @@ class TableProducts extends React.Component {
             error: props.data.error,
             isLoaded: props.data.isLoaded,
             items: props.data.items,
+            hiddenEdit: { display: 'none' },
+            IsHiddenEdit: false,
+            product: {},
         };
-        this.handleOnClickButtonDelete = this.handleOnClickButtonDelete.bind(this)
+        // this.handleOnClickButtonDelete = this.handleOnClickButtonDelete.bind(this)
 
+    }
 
+    callback = () => {
+        // do something with value in parent component, like save to state
+        this.setState({ IsHiddenEdit: false })
     }
 
     handleOnClickButtonDelete(sku, e) {
@@ -19,15 +28,24 @@ class TableProducts extends React.Component {
         let fruites = this.state.items;
         let filtered = fruites.filter(item => item.sku !== sku)
         console.log(filtered);
-
         this.setState({ items: filtered })
+
+        deleteProduct(sku).then(console.log); 
+    }
+
+    handleOnClickButtonEdit(sku, e) {
+        e.preventDefault();
+        console.log(sku)
+        let fruites = this.state.items;
+        let filtered = fruites.filter(item => item.sku === sku)
+        this.setState({ hiddenEdit: { display: 'flex' }, product: filtered[0], IsHiddenEdit: true })
 
     }
 
 
 
     render() {
-        const { error, isLoaded, items } = this.state;
+        const { error, isLoaded, items, hiddenEdit } = this.state;
         // console.log(items)
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -47,7 +65,7 @@ class TableProducts extends React.Component {
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Precio</th>
                                 <th scope="col">Unidad</th>
-                                <th scope="col">Accion</th>
+                                <th scope="col" style={{ width: '160px' }} >Accion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,7 +82,7 @@ class TableProducts extends React.Component {
                                 <th> {item.un} </th>
                                 <th className="row">
                                     <Button label="Borrar" nameClass="btn btn-danger" onClick={(e) => this.handleOnClickButtonDelete(item.sku, e)} col="col-6" />
-                                    <Button label="Editar" nameClass="btn btn-warning" onClick={(e) => this.handleOnClickButtonDelete(item.sku, e)} col="col-6" />
+                                    <Button label="Editar" nameClass="btn btn-warning" onClick={(e) => this.handleOnClickButtonEdit(item.sku, e)} col="col-6" />
                                 </th>
 
                             </tr>
@@ -72,8 +90,8 @@ class TableProducts extends React.Component {
 
                         </tbody>
                     </table>
-
-                </div>
+                    {this.state.IsHiddenEdit ? <EditProducts display={hiddenEdit} product={this.state.product} parentCallback={this.callback} /> : ''}
+                </div >
             )
         }
         ;
