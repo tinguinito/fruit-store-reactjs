@@ -9,6 +9,12 @@ import { addProduct, getProducts } from './services/services';
 function App() {
   const [data, setData] = useState({ items: [] });
 
+  let callbackApp = (items) => {
+    console.log('items APP', items)
+    console.log(`data.items ${JSON.stringify(data.items)}`)
+    setData({ items: items })
+  }
+
   let handleOnChangeCheckbox = (event) => {
     console.log(event.target.value)
     let fruites = data.items
@@ -29,10 +35,12 @@ function App() {
     return await addProduct(newProduct)
       .then((pro) => {
         console.log(`Add Product ${pro}`)
+        console.log(`data.items ${JSON.stringify(data.items)}`)
         let fruites = data.items
         fruites.push(newProduct);
 
         setData({ items: fruites })
+        console.log(`data.items ${JSON.stringify(data.items)}`)
       });
   }
 
@@ -58,7 +66,7 @@ function App() {
       </header>
       <div className="container">
         <div className="row pb-5">
-          <Button label="Cargar Productos" nameClass="btn btn-primary" action="load"  />
+          <Button label="Cargar Productos" nameClass="btn btn-primary" action="load" />
 
           <Button label="Agregar productos" nameClass="btn btn-success" action="add" onClick={addNewProduct} />
           {/* 
@@ -68,7 +76,7 @@ function App() {
 
         </div>
         {data?.items?.length > 0 ? <TableProducts data={data}
-          handleOnChangeCheckbox={handleOnChangeCheckbox} /> : <div></div>}
+          handleOnChangeCheckbox={handleOnChangeCheckbox} parentCallback={callbackApp} /> : <div></div>}
 
       </div>
       <footer>

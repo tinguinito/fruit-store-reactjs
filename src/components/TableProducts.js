@@ -29,6 +29,7 @@ class TableProducts extends React.Component {
         let filtered = fruites.filter(item => item.sku !== sku)
         console.log(filtered);
         this.setState({ items: filtered })
+        this.props.parentCallback(filtered)
 
         deleteProduct(sku).then(console.log); 
     }
@@ -39,6 +40,7 @@ class TableProducts extends React.Component {
         let fruites = this.state.items;
         let filtered = fruites.filter(item => item.sku === sku)
         this.setState({ hiddenEdit: { display: 'flex' }, product: filtered[0], IsHiddenEdit: true })
+        // this.props.parentCallback(filtered)
 
     }
 
