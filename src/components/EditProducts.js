@@ -14,7 +14,6 @@ class EditProducts extends React.Component {
     };
 
     handleInputChange(event) {
-
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -47,7 +46,7 @@ class EditProducts extends React.Component {
                 </div>
                 <div className="col-4">
                     <label htmlFor="product" className="form-label">Producto</label>
-                    <input type="text" name="product" className="form-control" id="product" aria-describedby="product" value={product.product} onChange={(e) => this.handleInputChange(e, this)} />
+                    <input type="text" name="product" className="form-control" id="product" aria-describedby="product" value={product.product} onChange={(event) => this.handleInputChange(event, this)} />
                 </div>
                 <div className="col-2">
                     <label htmlFor="quantity" className="form-label">Cantidad</label>

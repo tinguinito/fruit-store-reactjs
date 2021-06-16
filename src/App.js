@@ -47,8 +47,8 @@ function App() {
   useEffect(() => {
 
     const fetchData = async () => getProducts()
-      .then(items => {
-        setData({ isLoaded: true, items: items });
+      .then(products => {
+        setData({ isLoaded: true, items: products });
       }, (e) => setData(
         { isLoaded: true, error: e }
       ))
